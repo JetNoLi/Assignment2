@@ -1,5 +1,3 @@
-import javax.swing.JPanel;
-
 public class Water{
     private int x, y; //2D position
     private float terrainHeight;

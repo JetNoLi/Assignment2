@@ -1,8 +1,6 @@
 //package FlowSkeleton;
 
-import java.awt.Graphics2D;
 import javax.swing.JPanel;
-import java.awt.event.*;
 import java.awt.image.*;
 import java.awt.Graphics;
 
@@ -38,7 +36,6 @@ public class FlowPanel extends JPanel implements Runnable{
 	public void addWater(int x, int y){
 		land.surface[x][y].addWater();
 		run();
-
 	}
 	
 	public void run() {	
@@ -48,5 +45,6 @@ public class FlowPanel extends JPanel implements Runnable{
 	    repaint();
 	}
 
+	
 }
 

@@ -7,7 +7,6 @@ import java.awt.BorderLayout;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.awt.Color;
-import java.awt.Graphics2D;
 
 public class Flow{
 	static long startTime = 0;
@@ -38,26 +37,65 @@ public class Flow{
    
 		fp = new FlowPanel(landdata);
 		fp.setPreferredSize(new Dimension(frameX,frameY));
-		fp.addMouseListener(new MouseActions(fp,frame));
+		fp.addMouseListener(new MouseActions(fp));
 
-		// to do: add Listeners and buttons
 		g.add(fp);
-		JPanel b = new JPanel();
-	    b.setLayout(new BoxLayout(b, BoxLayout.LINE_AXIS));
-		JButton endB = new JButton("End");
 
-		// add the listener to the jbutton to handle the "pressed" event
+		// Create Button Panel b
+		JPanel b = new JPanel();
+		b.setLayout(new BoxLayout(b, BoxLayout.LINE_AXIS));
+		
+		// End Button
+		JButton endB = new JButton("End");
 
 		endB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				// to do ask threads to stop
 				frame.dispose();
 			}
-		});
-		
+		}); 
+		//End Button
+
+		// Play Button
+		JButton Start = new JButton("Play");
+
+		Start.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				// Start
+				
+			}
+		}); 
+		//Play Button
+
+		//Pause Button
+		JButton Pause = new JButton("Pause");
+
+		Pause.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				// Pause
+			}
+		}); 
+		//Pause Button
+
+		//Reset Button
+		JButton Reset = new JButton("Reset");
+
+		Reset.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				// Reset overlay and counter
+			}
+		}); 
+		//Reset Button
+
+		//Add Buttons to button panel
+		b.add(Start);
+		b.add(Pause);
+		b.add(Reset);
 		b.add(endB);
+
+		//Add buttons to g the main panel
 		g.add(b);
-    	
+			
 		frame.setSize(frameX, frameY+50);	// a little extra space at the bottom for buttons
       	frame.setLocationRelativeTo(null);  // center window on screen
       	frame.add(g); //add contents to window
@@ -66,7 +104,6 @@ public class Flow{
         Thread fpt = new Thread(fp);
         fpt.start();
 	}
-	
 		
 	public static void main(String[] args) {
 		Terrain landdata = new Terrain();
@@ -79,7 +116,6 @@ public class Flow{
 		}
 				
 		// landscape information from file supplied as argument
-		// 
 		landdata.readData(args[0]);
 		
 		frameX = landdata.getDimX();
@@ -92,12 +128,10 @@ public class Flow{
 
 class MouseActions implements MouseListener{
 
-	FlowPanel fp;
-	
+	private FlowPanel fp;
 
-	public MouseActions(FlowPanel fp, JFrame frame){
+	public MouseActions(FlowPanel fp){
 		this.fp = fp;	
-	
 	}
 	
 	@Override
