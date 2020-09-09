@@ -3,15 +3,18 @@
 import javax.swing.*;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
+import java.awt.event.*;
+import java.awt.image.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 
-public class Flow {
+public class Flow{
 	static long startTime = 0;
 	static int frameX;
 	static int frameY;
 	static FlowPanel fp;
+	static BufferedImage waterLayer;
 
 	// start timer
 	private static void tick(){
@@ -31,18 +34,20 @@ public class Flow {
     	frame.getContentPane().setLayout(new BorderLayout());
     	
       	JPanel g = new JPanel();
-        g.setLayout(new BoxLayout(g, BoxLayout.PAGE_AXIS)); 
+		g.setLayout(new BoxLayout(g, BoxLayout.PAGE_AXIS)); 
    
 		fp = new FlowPanel(landdata);
 		fp.setPreferredSize(new Dimension(frameX,frameY));
+		fp.addMouseListener(new MouseActions(fp,frame));
+
+		// to do: add Listeners and buttons
 		g.add(fp);
-	    
-		// to do: add a MouseListener, buttons and ActionListeners on those buttons
-	   	
 		JPanel b = new JPanel();
 	    b.setLayout(new BoxLayout(b, BoxLayout.LINE_AXIS));
-		JButton endB = new JButton("End");;
+		JButton endB = new JButton("End");
+
 		// add the listener to the jbutton to handle the "pressed" event
+
 		endB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				// to do ask threads to stop
@@ -83,4 +88,45 @@ public class Flow {
 		
 		// to do: initialise and start simulation
 	}
+}
+
+class MouseActions implements MouseListener{
+
+	FlowPanel fp;
+	
+
+	public MouseActions(FlowPanel fp, JFrame frame){
+		this.fp = fp;	
+	
+	}
+	
+	@Override
+	public void mouseClicked(MouseEvent click){
+		int x = click.getX();
+		int y = click.getY();
+
+		fp.addWater(x,y);
+		fp.waterLayer.setRGB(x,y,new Color(0,0,255).getRGB());
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent released){
+
+	}
+			
+	@Override
+	public void mousePressed(MouseEvent pressed){
+
+	}
+	
+	@Override
+	public void mouseEntered(MouseEvent entered){
+				
+	}
+
+	@Override
+	public void mouseExited(MouseEvent exited){
+
+	}
+		
 }

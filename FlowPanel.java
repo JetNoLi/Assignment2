@@ -1,15 +1,21 @@
 //package FlowSkeleton;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import javax.swing.JPanel;
+import java.awt.event.*;
+import java.awt.image.*;
+import java.awt.Graphics;
 
-public class FlowPanel extends JPanel implements Runnable {
+public class FlowPanel extends JPanel implements Runnable{
 	Terrain land;
-	
+	BufferedImage waterLayer; //overlay
+
 	FlowPanel(Terrain terrain) {
 		land=terrain;
+		waterLayer = new BufferedImage(land.dimx, land.dimy, BufferedImage.TYPE_INT_ARGB);
 	}
-		
+
+
 	// responsible for painting the terrain and water
 	// as images
 	@Override
@@ -23,6 +29,16 @@ public class FlowPanel extends JPanel implements Runnable {
 		if (land.getImage() != null){
 			g.drawImage(land.getImage(), 0, 0, null);
 		}
+
+		if (waterLayer != null){
+			g.drawImage(waterLayer, 0, 0, null);
+		}
+	}
+
+	public void addWater(int x, int y){
+		land.surface[x][y].addWater();
+		run();
+
 	}
 	
 	public void run() {	
@@ -31,4 +47,6 @@ public class FlowPanel extends JPanel implements Runnable {
 		// to allow stopping and starting
 	    repaint();
 	}
+
 }
+

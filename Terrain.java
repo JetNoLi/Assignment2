@@ -10,7 +10,7 @@ import java.util.Locale;
 
 public class Terrain {
 
-	float [][] height; // regular grid of height values
+	Water [][] surface; // regular grid of height values
 	int dimx, dimy; // data dimensions
 	BufferedImage img; // greyscale image for displaying the terrain top-down
 
@@ -52,7 +52,7 @@ public class Terrain {
 		// determine range of heights
 		for(int x=0; x < dimx; x++)
 			for(int y=0; y < dimy; y++) {
-				float h = height[x][y];
+				float h = surface[x][y].getTerrainHeight();
 				if(h > maxh)
 					maxh = h;
 				if(h < minh)
@@ -62,7 +62,7 @@ public class Terrain {
 		for(int x=0; x < dimx; x++)
 			for(int y=0; y < dimy; y++) {
 				 // find normalized height value in range
-				 float val = (height[x][y] - minh) / (maxh - minh);
+				 float val = (surface[x][y].getTerrainHeight() - minh) / (maxh - minh);
 				 Color col = new Color(val, val, val, 1.0f);
 				 img.setRGB(x, y, col.getRGB());
 			}
@@ -96,11 +96,11 @@ public class Terrain {
 			dimx = sc.nextInt();
 			
 			// populate height grid
-			height = new float[dimx][dimy];
+			surface = new Water[dimx][dimy];
 			
 			for(int y = 0; y < dimy; y++){
 				for(int x = 0; x < dimx; x++)	
-					height[x][y] = sc.nextFloat();
+					surface[x][y] = new Water(x, y ,sc.nextFloat());
 				}
 				
 			sc.close(); 
