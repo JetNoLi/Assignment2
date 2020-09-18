@@ -1,3 +1,5 @@
+import java.awt.Graphics;
+
 public class Water{
     private int x, y; //2D position
     private float terrainHeight;
@@ -10,12 +12,12 @@ public class Water{
         terrainHeight = height;
     }
 
-    public void addWater(){
-        waterDepth += 0.3;
+    public void addWaterClick(){
+        waterDepth += 0.03;
     }
 
     public void removeWater(){
-        waterDepth -= 0.1;
+        waterDepth -= 0.01;
     }
 
     public float getSurfaceHeight(){
@@ -26,4 +28,18 @@ public class Water{
         return terrainHeight;
     }
     
+    public boolean hasWater(){
+        if (waterDepth > 0){
+            return true;
+        }
+        return false;
+    }
+
+    public void takeWater(Water w){
+        w.removeWater();
+        waterDepth += 0.01;
+
+        //System.out.println(w.getSurfaceHeight());
+        //System.out.println(this.getSurfaceHeight());
+    }
 }

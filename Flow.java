@@ -14,6 +14,7 @@ public class Flow{
 	static int frameY;
 	static FlowPanel fp;
 	static BufferedImage waterLayer;
+	static boolean on = false;
 
 	// start timer
 	private static void tick(){
@@ -61,8 +62,11 @@ public class Flow{
 
 		Start.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				on = true;
 				// Start
-				
+				for (int i = 0; i< 10; i++){
+					fp.sim();
+				}
 			}
 		}); 
 		//Play Button
@@ -72,6 +76,7 @@ public class Flow{
 
 		Pause.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				on = false;
 				// Pause
 			}
 		}); 
@@ -132,6 +137,7 @@ class MouseActions implements MouseListener{
 
 	public MouseActions(FlowPanel fp){
 		this.fp = fp;	
+		
 	}
 	
 	@Override
@@ -140,7 +146,7 @@ class MouseActions implements MouseListener{
 		int y = click.getY();
 
 		fp.addWater(x,y);
-		fp.waterLayer.setRGB(x,y,new Color(0,0,255).getRGB());
+		fp.run();
 	}
 
 	@Override
