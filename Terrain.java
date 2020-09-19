@@ -123,8 +123,6 @@ public class Terrain {
 
 	public void moveWater(int[] ind, int[] lowestNeighbourIndices){
 		surface[lowestNeighbourIndices[0]][lowestNeighbourIndices[1]].takeWater(surface[ind[0]][ind[1]]);
-		System.out.println(ind[0] + " " + ind[1]);
-		System.out.println(lowestNeighbourIndices[0] + " " + lowestNeighbourIndices[1]);
 	}
 
 

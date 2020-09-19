@@ -8,10 +8,16 @@ import java.awt.Color;
 public class FlowPanel extends JPanel implements Runnable{
 	Terrain land;
 	BufferedImage waterLayer; //overlay
+	boolean state;
 
 	FlowPanel(Terrain terrain) {
 		land=terrain;
 		waterLayer = new BufferedImage(land.dimx, land.dimy, BufferedImage.TYPE_INT_ARGB);
+		state = false;
+	}
+
+	public Terrain getLand(){
+		return land;
 	}
 
 
@@ -39,26 +45,6 @@ public class FlowPanel extends JPanel implements Runnable{
 		run();
 	}
 
-	public void sim(){
-		for (int i = 0; i < land.dim(); i++){
-			int[] ind = new int[2]; 
-			land.locate(land.permute.get(i),ind);
-
-			Water current = land.surface[ind[0]][ind[1]];
-
-			if (current.hasWater()){
-				int[] lowestNeighbourIndices = Util.getLowestNeighbour(land, ind[0], ind[1]);
-
-				if (lowestNeighbourIndices == ind){
-					continue;
-				}
-
-				land.moveWater(ind, lowestNeighbourIndices);
-			}
-		}
-
-		run(); //to repaint
-	}
 	
 	public void run() {	
 		waterLayer = new BufferedImage(land.dimx, land.dimy, BufferedImage.TYPE_INT_ARGB);
@@ -75,9 +61,6 @@ public class FlowPanel extends JPanel implements Runnable{
 			}
 
 		}
-		// display loop here
-		// to do: this should be controlled by the GUI
-		// to allow stopping and starting
 		
 	    repaint();
 	}

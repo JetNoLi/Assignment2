@@ -14,7 +14,8 @@ public class Flow{
 	static int frameY;
 	static FlowPanel fp;
 	static BufferedImage waterLayer;
-	static boolean on = false;
+	static boolean on;
+	static float var; //random variable to increment
 
 	// start timer
 	private static void tick(){
@@ -63,10 +64,7 @@ public class Flow{
 		Start.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				on = true;
-				// Start
-				for (int i = 0; i< 10; i++){
-					fp.sim();
-				}
+				
 			}
 		}); 
 		//Play Button
@@ -77,7 +75,6 @@ public class Flow{
 		Pause.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				on = false;
-				// Pause
 			}
 		}); 
 		//Pause Button
@@ -107,7 +104,8 @@ public class Flow{
         frame.setContentPane(g);
         frame.setVisible(true);
         Thread fpt = new Thread(fp);
-        fpt.start();
+		fpt.start();
+		
 	}
 		
 	public static void main(String[] args) {
@@ -128,6 +126,22 @@ public class Flow{
 		SwingUtilities.invokeLater(()->setupGUI(frameX, frameY, landdata));
 		
 		// to do: initialise and start simulation
+		//boolean check = false;
+		
+		//runnable.simulate();
+
+		while(true){
+			if (on){
+				Util.simulate(fp.land);
+				fp.run();
+			}
+
+			else{
+				//System.out.println("o");
+			}
+		}
+
+		
 	}
 }
 
