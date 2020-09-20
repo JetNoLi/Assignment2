@@ -9,11 +9,14 @@ public class FlowPanel extends JPanel implements Runnable{
 	Terrain land;
 	BufferedImage waterLayer; //overlay
 	boolean state;
+	//Thread[] threads;
+	
 
 	FlowPanel(Terrain terrain) {
 		land=terrain;
 		waterLayer = new BufferedImage(land.dimx, land.dimy, BufferedImage.TYPE_INT_ARGB);
-		state = false;
+		//state = false;
+		//threads = new Thread[4];
 	}
 
 	public Terrain getLand(){

@@ -15,8 +15,9 @@ public class Flow{
 	static FlowPanel fp;
 	static BufferedImage waterLayer;
 	static boolean on;
-	static int size; //random variable to increment
+	static int count = 0; //random variable to increment
 	static Thread threads[] = new Thread[4];
+	static boolean canStart = false;
 
 	// start timer
 	private static void tick(){
@@ -40,12 +41,14 @@ public class Flow{
    
 		fp = new FlowPanel(landdata);
 		//runnable = new sim(0, fp.land.dim(), fp.land);
-		size = (fp.land.dim()-1)/4;
+		//size = (fp.land.dim()-1)/4;
 
 		fp.setPreferredSize(new Dimension(frameX,frameY));
 		fp.addMouseListener(new MouseActions(fp));
 
 		g.add(fp);
+
+		on = false;
 
 		// Create Button Panel b
 		JPanel b = new JPanel();
@@ -69,8 +72,10 @@ public class Flow{
 			public void actionPerformed(ActionEvent e){
 				on = true;
 				System.out.println("on = " + on);
-				//loop();
 				
+				if (count == 0){
+					
+				}
 			}
 		}); 
 		//Play Button
@@ -113,24 +118,42 @@ public class Flow{
         Thread fpt = new Thread(fp);
 		fpt.start();
 
+		canStart = true;
 	}
 
 	public static void loop(){
-		if (on == true){
-			while(on){
-				if (on){
-					//unnable.simulate();
-					fp.run();
-				}
+
+		if(on){	
+			//System.out.println("on");
+			timeStep();			
+		}
+
+		fp.run();
+	}
+
+	public static void timeStep(){
+
+		int size = (fp.land.dim()-1)/4;
+		Thread[] threads = new Thread[4];
+
 				
-				else{
-					break;
-				}
+		for (int i = 0; i < 4; i++){					
+			threads[i] = new Thread(new sim(i*size,(i+1)*size, fp.land));
+		}
+		
+		for (int i = 0; i < 4; i++){
+			threads[i].start();
+		}
+		try{
+			for (int i = 0; i < 4; i++){
+				threads[i].join();
 			}
 		}
-		else{
-			loop();
+
+		catch(InterruptedException e){
+			System.out.println("Interrupted");
 		}
+
 	}
 		
 	public static void main(String[] args) {
@@ -149,38 +172,22 @@ public class Flow{
 		frameX = landdata.getDimX();
 		frameY = landdata.getDimY();
 		SwingUtilities.invokeLater(()->setupGUI(frameX, frameY, landdata));
+
 		
 		// to do: initialise and start simulation
-		//boolean check = false;
 		
-		//runnable.simulate();
-		//loop();
-		System.out.println("Entered");
-
-
 		while(true){
-			
-			if(on){	
-
-				for (int i = 0; i < 4; i++){
-					threads[i] = new Thread(new sim(i*size,(i+1)*size, fp.land));
-				}
-
-				for (int i = 0; i < 4; i++){
-					threads[i].start();
-				}
-
-				fp.run();			
+			try{
+				Thread.sleep(5);
 			}
 
-			else{
-				System.out.println("off");
+			catch(InterruptedException e){
 			}
 
-			//System.out.println(tock());
+			if (canStart){
+				loop();
+			}
 		}
-
-		//System.out.println("Exited");
 	}
 }
 
