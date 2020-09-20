@@ -1,12 +1,11 @@
-//package FlowSkeleton;
-
 import javax.swing.*;
 
 import java.awt.Dimension;
 import java.awt.BorderLayout;
 import java.awt.event.*;
 import java.awt.image.*;
-import java.awt.Color;
+//import java.awt.Color;
+
 
 public class Flow{
 	static long startTime = 0;
@@ -170,21 +169,15 @@ public class Flow{
 
 		
 		// to do: initialise and start simulation
-		
-		while(true){
-			if (canStart){
-				loop();
+		Timer t = new Timer(10,new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				if (canStart){
+					loop();
+				}
 			}
-
-			else{
-				try{
-					Thread.sleep(800);
-				}
-
-				catch(InterruptedException e){
-				}
-			}	
-		}
+		});
+		
+		t.start();
 	}
 }
 
