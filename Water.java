@@ -1,13 +1,8 @@
-import java.awt.Graphics;
-
 public class Water{
-    private int x, y; //2D position
     private float terrainHeight;
     private float waterDepth;
     
-    public Water(int x, int y, float height){
-        this.x = x;
-        this.y = y;
+    public Water(float height){
         waterDepth = 0;
         terrainHeight = height;
     }
@@ -38,8 +33,5 @@ public class Water{
     public void takeWater(Water w){
         w.removeWater();
         waterDepth += 0.01;
-
-        //System.out.println(w.getSurfaceHeight());
-        //System.out.println(this.getSurfaceHeight());
     }
 }

@@ -45,22 +45,20 @@ public class FlowPanel extends JPanel implements Runnable{
 
 	public void addWater(int x, int y){
 		land.surface[x][y].addWaterClick();
-		run();
 	}
 
 	
 	public void run() {	
 		waterLayer = new BufferedImage(land.dimx, land.dimy, BufferedImage.TYPE_INT_ARGB);
 
-		for (int i = 0; i < land.dim(); i++){
-			
-			int[] ind = new int[2]; 
-			land.locate(land.permute.get(i),ind);
+		for (int i = 0; i < land.dimx; i++){
+			for (int j = 0; j < land.dimy; j++){
 
-			Water current = land.surface[ind[0]][ind[1]];
+				Water current = land.surface[i][j];
 
-			if (current.hasWater()){
-				waterLayer.setRGB(ind[0],ind[1],new Color(0,0,255).getRGB());
+				if (current.hasWater()){
+					waterLayer.setRGB(i,j,new Color(0,0,255).getRGB());
+				}
 			}
 
 		}

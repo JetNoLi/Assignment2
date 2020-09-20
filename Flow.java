@@ -71,11 +71,7 @@ public class Flow{
 		Start.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				on = true;
-				System.out.println("on = " + on);
-				
-				if (count == 0){
-					
-				}
+				//System.out.println("on = " + on);
 			}
 		}); 
 		//Play Button
@@ -86,7 +82,7 @@ public class Flow{
 		Pause.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				on = false;
-				System.out.println("on = " + on);
+				//System.out.println("on = " + on);
 			}
 		}); 
 		//Pause Button
@@ -124,7 +120,6 @@ public class Flow{
 	public static void loop(){
 
 		if(on){	
-			//System.out.println("on");
 			timeStep();			
 		}
 
@@ -177,16 +172,18 @@ public class Flow{
 		// to do: initialise and start simulation
 		
 		while(true){
-			try{
-				Thread.sleep(5);
-			}
-
-			catch(InterruptedException e){
-			}
-
 			if (canStart){
 				loop();
 			}
+
+			else{
+				try{
+					Thread.sleep(800);
+				}
+
+				catch(InterruptedException e){
+				}
+			}	
 		}
 	}
 }
@@ -205,7 +202,14 @@ class MouseActions implements MouseListener{
 		int x = click.getX();
 		int y = click.getY();
 
-		fp.addWater(x,y);
+		for (int i = -3; i < 4; i++){
+			for (int j = -3; j < 4; j++){
+				if (!Util.isOut(x + i, y + j, fp.land.dimx, fp.land.dimy)){
+					fp.addWater(x+i,y+j);
+				}
+			}
+		}
+		
 		fp.run();
 	}
 
