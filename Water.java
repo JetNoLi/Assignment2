@@ -30,7 +30,11 @@ public class Water{
         return false;
     }
 
-    public void takeWater(Water w){
+    public void noWater(){
+        this.waterDepth = 0;
+    }
+
+    synchronized public void takeWater(Water w){
         w.removeWater();
         waterDepth += 0.01;
     }

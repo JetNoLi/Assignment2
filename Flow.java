@@ -169,7 +169,7 @@ public class Flow{
 
 		
 		// to do: initialise and start simulation
-		Timer t = new Timer(10,new ActionListener(){
+		Timer t = new Timer(1,new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				if (canStart){
 					loop();

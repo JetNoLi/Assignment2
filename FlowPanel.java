@@ -57,7 +57,13 @@ public class FlowPanel extends JPanel implements Runnable{
 				Water current = land.surface[i][j];
 
 				if (current.hasWater()){
-					waterLayer.setRGB(i,j,new Color(0,0,255).getRGB());
+					if(!Util.atBorder(i, j, land.dimx, land.dimy)){
+						waterLayer.setRGB(i,j,new Color(0,0,255).getRGB());
+					}
+					
+					else{
+						land.surface[i][j].noWater();
+					}
 				}
 			}
 

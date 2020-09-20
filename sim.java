@@ -45,28 +45,6 @@ public class sim implements Runnable{
     
     }
 
-    /** 
-    public void simulate(){
-        for (int i  = lo; i < hi; i++){
-            int[] ind = new int[2]; 
-			land.locate(land.permute.get(i),ind);
-
-			Water current = land.surface[ind[0]][ind[1]];
-
-			if (current.hasWater()){
-				int[] lowestNeighbourIndices = this.getLowestNeighbour(land, ind[0], ind[1]);
-								
-				if (lowestNeighbourIndices == ind){
-					continue;
-				}
-					
-				land.moveWater(ind, lowestNeighbourIndices);
-			}
-        }
-    }
-
-    */
-
     @Override
     public void run() {
     
