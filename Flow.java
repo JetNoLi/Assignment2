@@ -15,7 +15,8 @@ public class Flow{
 	static FlowPanel fp;
 	static BufferedImage waterLayer;
 	static boolean on;
-	static float var; //random variable to increment
+	static int size; //random variable to increment
+	static Thread threads[] = new Thread[4];
 
 	// start timer
 	private static void tick(){
@@ -38,6 +39,9 @@ public class Flow{
 		g.setLayout(new BoxLayout(g, BoxLayout.PAGE_AXIS)); 
    
 		fp = new FlowPanel(landdata);
+		//runnable = new sim(0, fp.land.dim(), fp.land);
+		size = (fp.land.dim()-1)/4;
+
 		fp.setPreferredSize(new Dimension(frameX,frameY));
 		fp.addMouseListener(new MouseActions(fp));
 
@@ -64,6 +68,8 @@ public class Flow{
 		Start.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				on = true;
+				System.out.println("on = " + on);
+				//loop();
 				
 			}
 		}); 
@@ -75,6 +81,7 @@ public class Flow{
 		Pause.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				on = false;
+				System.out.println("on = " + on);
 			}
 		}); 
 		//Pause Button
@@ -105,7 +112,25 @@ public class Flow{
         frame.setVisible(true);
         Thread fpt = new Thread(fp);
 		fpt.start();
-		
+
+	}
+
+	public static void loop(){
+		if (on == true){
+			while(on){
+				if (on){
+					//unnable.simulate();
+					fp.run();
+				}
+				
+				else{
+					break;
+				}
+			}
+		}
+		else{
+			loop();
+		}
 	}
 		
 	public static void main(String[] args) {
@@ -129,19 +154,33 @@ public class Flow{
 		//boolean check = false;
 		
 		//runnable.simulate();
+		//loop();
+		System.out.println("Entered");
+
 
 		while(true){
-			if (on){
-				Util.simulate(fp.land);
-				fp.run();
+			
+			if(on){	
+
+				for (int i = 0; i < 4; i++){
+					threads[i] = new Thread(new sim(i*size,(i+1)*size, fp.land));
+				}
+
+				for (int i = 0; i < 4; i++){
+					threads[i].start();
+				}
+
+				fp.run();			
 			}
 
 			else{
-				//System.out.println("o");
+				System.out.println("off");
 			}
+
+			//System.out.println(tock());
 		}
 
-		
+		//System.out.println("Exited");
 	}
 }
 

@@ -39,7 +39,7 @@ public class Water{
         w.removeWater();
         waterDepth += 0.01;
 
-        System.out.println(w.getSurfaceHeight());
-        System.out.println(this.getSurfaceHeight());
+        //System.out.println(w.getSurfaceHeight());
+        //System.out.println(this.getSurfaceHeight());
     }
 }

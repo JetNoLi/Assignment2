@@ -107,5 +107,13 @@ public class Util{
 			}
         }
     }
+
+    static void delay(){
+        int i = 0;
+
+        for (int j = 0; j <1000; j++ ){
+            i+= j;
+        }
+    }
     
 }

@@ -1,12 +1,12 @@
-public class sim {
+public class sim implements Runnable{
 
-    boolean on;
+    //boolean on;
     int hi;
     int lo;
-    FlowPanel fp;
+    Terrain land;
 
-    public sim(int lo, int hi, FlowPanel fp){
-        //this.land = land;
+    public sim(int lo, int hi, Terrain land){
+        this.land = land;
         this.lo = lo;
         this.hi = hi;
         
@@ -45,7 +45,8 @@ public class sim {
     
     }
 
-    public void simulate(Terrain land){
+    /** 
+    public void simulate(){
         for (int i  = lo; i < hi; i++){
             int[] ind = new int[2]; 
 			land.locate(land.permute.get(i),ind);
@@ -62,5 +63,28 @@ public class sim {
 				land.moveWater(ind, lowestNeighbourIndices);
 			}
         }
+    }
+
+    */
+
+    @Override
+    public void run() {
+        for (int i  = lo; i < hi; i++){
+            int[] ind = new int[2]; 
+			land.locate(land.permute.get(i),ind);
+
+			Water current = land.surface[ind[0]][ind[1]];
+
+			if (current.hasWater()){
+				int[] lowestNeighbourIndices = this.getLowestNeighbour(land, ind[0], ind[1]);
+								
+				if (lowestNeighbourIndices == ind){
+					continue;
+				}
+					
+				land.moveWater(ind, lowestNeighbourIndices);
+			}
+        }
+
     }
 }
