@@ -17,6 +17,7 @@ public class Flow{
 	static int count = 0; //random variable to increment
 	static Thread threads[] = new Thread[4];
 	static boolean canStart = false;
+	static int timeStepCounter = 0;
 
 	// start timer
 	private static void tick(){
@@ -39,9 +40,6 @@ public class Flow{
 		g.setLayout(new BoxLayout(g, BoxLayout.PAGE_AXIS)); 
    
 		fp = new FlowPanel(landdata);
-		//runnable = new sim(0, fp.land.dim(), fp.land);
-		//size = (fp.land.dim()-1)/4;
-
 		fp.setPreferredSize(new Dimension(frameX,frameY));
 		fp.addMouseListener(new MouseActions(fp));
 
@@ -60,6 +58,7 @@ public class Flow{
 			public void actionPerformed(ActionEvent e){
 				// to do ask threads to stop
 				frame.dispose();
+
 			}
 		}); 
 		//End Button
@@ -70,7 +69,7 @@ public class Flow{
 		Start.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				on = true;
-				//System.out.println("on = " + on);
+				
 			}
 		}); 
 		//Play Button
@@ -81,7 +80,7 @@ public class Flow{
 		Pause.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				on = false;
-				//System.out.println("on = " + on);
+
 			}
 		}); 
 		//Pause Button
@@ -93,16 +92,29 @@ public class Flow{
 			public void actionPerformed(ActionEvent e){
 				// Reset overlay and counter
 				on = false;
-				Util.reset(fp.land);
+				for(int i = 0; i < fp.land.dimx; i++){
+					for (int j = 0; j < fp.land.dimy; j++){
+						if (fp.land.surface[i][j].hasWater()){
+							fp.land.surface[i][j].setNoWater();
+						}
+					}
+				}
 			}
 		}); 
 		//Reset Button
+
+		JPanel Counter = new JPanel();
+		JTextField counterField = new JTextField(10);
+		counterField.setText(Integer.toString(timeStepCounter));
+		Counter.add(counterField);
+
 
 		//Add Buttons to button panel
 		b.add(Start);
 		b.add(Pause);
 		b.add(Reset);
 		b.add(endB);
+		b.add(Counter);
 
 		//Add buttons to g the main panel
 		g.add(b);
@@ -116,15 +128,30 @@ public class Flow{
 		fpt.start();
 
 		canStart = true;
+
+		Timer t = new Timer(1,new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				if (canStart){
+					timeStepCounter = loop();
+					counterField.setText(Integer.toString(timeStepCounter));
+
+				}
+			}
+		});
+		
+		t.start();
 	}
 
-	public static void loop(){
+	public static int loop(){
 
 		if(on){	
 			timeStep();			
+			timeStepCounter++;
 		}
 
 		fp.run();
+
+		return timeStepCounter;
 	}
 
 	public static void timeStep(){
@@ -170,16 +197,20 @@ public class Flow{
 		SwingUtilities.invokeLater(()->setupGUI(frameX, frameY, landdata));
 
 		
-		// to do: initialise and start simulation
+		/**  to do: initialise and start simulation
 		Timer t = new Timer(1,new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				if (canStart){
-					loop();
+					timeStepCounter = loop();
+					Counter.counterField.setText(Integer.toString(timeStepCounter));
+
 				}
 			}
 		});
 		
 		t.start();
+
+		*/
 	}
 }
 

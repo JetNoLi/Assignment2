@@ -1,6 +1,5 @@
 public class sim implements Runnable{
 
-    //boolean on;
     int hi;
     int lo;
     Terrain land;
@@ -41,8 +40,7 @@ public class sim implements Runnable{
                 }
             }    
         }
-        return lowestNeighbour;
-    
+        return lowestNeighbour;  
     }
 
     @Override
