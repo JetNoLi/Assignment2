@@ -23,7 +23,6 @@ public class FlowPanel extends JPanel implements Runnable{
 		return land;
 	}
 
-
 	// responsible for painting the terrain and water
 	// as images
 	@Override
@@ -62,13 +61,11 @@ public class FlowPanel extends JPanel implements Runnable{
 					}
 					
 					else{
-						land.surface[i][j].noWater();
+						land.surface[i][j].setNoWater();
 					}
 				}
 			}
-
-		}
-		
+		}	
 	    repaint();
 	}
 

@@ -41,4 +41,14 @@ public class Util{
     
         return false;
     }
+
+    public static void reset(Terrain land){
+        for(int i = 0; i < land.dimx; i++){
+            for (int j = 0; j < land.dimy; j++){
+                if (land.surface[i][j].hasWater()){
+                    land.surface[i][j].setNoWater();
+                }
+            }
+        }
+    }
 }

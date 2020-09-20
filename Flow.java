@@ -92,6 +92,8 @@ public class Flow{
 		Reset.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				// Reset overlay and counter
+				on = false;
+				Util.reset(fp.land);
 			}
 		}); 
 		//Reset Button

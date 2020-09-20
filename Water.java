@@ -30,7 +30,7 @@ public class Water{
         return false;
     }
 
-    public void noWater(){
+    public void setNoWater(){
         this.waterDepth = 0;
     }
 
