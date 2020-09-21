@@ -7,20 +7,13 @@ import java.awt.Color;
 
 public class FlowPanel extends JPanel implements Runnable{
 	Terrain land;
-	BufferedImage waterLayer; //overlay
+	BufferedImage waterLayer; //overlay to show water on screen
 	boolean state;
-	//Thread[] threads;
 	
 
 	FlowPanel(Terrain terrain) {
 		land=terrain;
 		waterLayer = new BufferedImage(land.dimx, land.dimy, BufferedImage.TYPE_INT_ARGB);
-		//state = false;
-		//threads = new Thread[4];
-	}
-
-	public Terrain getLand(){
-		return land;
 	}
 
 	// responsible for painting the terrain and water
@@ -42,11 +35,18 @@ public class FlowPanel extends JPanel implements Runnable{
 		}
 	}
 
+	/** Adds the 3 units of water to the Terrain at the 2D row and colum index
+	 * @param x row index
+	 * @param y column index
+	 */
 	public void addWater(int x, int y){
 		land.surface[x][y].addWaterClick();
 	}
 
 	
+	/** Checks the terrain for water and repaints the waterLayer overlay accordingly
+	 * Also removes water if it reaches the edges
+	 */
 	public void run() {	
 		waterLayer = new BufferedImage(land.dimx, land.dimy, BufferedImage.TYPE_INT_ARGB);
 

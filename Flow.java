@@ -56,8 +56,8 @@ public class Flow{
 
 		endB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				// to do ask threads to stop
 				frame.dispose();
+				System.exit(0);
 
 			}
 		}); 
@@ -99,13 +99,15 @@ public class Flow{
 						}
 					}
 				}
+				timeStepCounter = 0;
 			}
 		}); 
 		//Reset Button
 
 		JPanel Counter = new JPanel();
-		JTextField counterField = new JTextField(10);
-		counterField.setText(Integer.toString(timeStepCounter));
+		JTextField counterField = new JTextField(11);
+	
+		counterField.setText("Sim Step: " + Integer.toString(timeStepCounter));
 		Counter.add(counterField);
 
 
@@ -129,11 +131,12 @@ public class Flow{
 
 		canStart = true;
 
+		//Will infinitely loop with a delay of 1ms between each loop to allow the GUI to update
 		Timer t = new Timer(1,new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				if (canStart){
 					timeStepCounter = loop();
-					counterField.setText(Integer.toString(timeStepCounter));
+					counterField.setText("Sim Step: " + Integer.toString(timeStepCounter));
 
 				}
 			}
@@ -141,6 +144,7 @@ public class Flow{
 		
 		t.start();
 	}
+
 
 	public static int loop(){
 
@@ -153,6 +157,7 @@ public class Flow{
 
 		return timeStepCounter;
 	}
+
 
 	public static void timeStep(){
 
@@ -196,33 +201,25 @@ public class Flow{
 		frameY = landdata.getDimY();
 		SwingUtilities.invokeLater(()->setupGUI(frameX, frameY, landdata));
 
-		
-		/**  to do: initialise and start simulation
-		Timer t = new Timer(1,new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				if (canStart){
-					timeStepCounter = loop();
-					Counter.counterField.setText(Integer.toString(timeStepCounter));
-
-				}
-			}
-		});
-		
-		t.start();
-
-		*/
 	}
 }
 
+/** Handles Mouse Events 
+ * @author Jet Hendricks
+*/
 class MouseActions implements MouseListener{
 
 	private FlowPanel fp;
 
+	/**Stores a FlowPanel object to be altered on click
+	 * @param fp FlowPanel object to be changed
+	 */
 	public MouseActions(FlowPanel fp){
 		this.fp = fp;	
 		
 	}
-	
+
+	/** On Mouse click will add 3 units of water to each Water item outwards 3 units in each direction from the click */
 	@Override
 	public void mouseClicked(MouseEvent click){
 		int x = click.getX();

@@ -121,6 +121,10 @@ public class Terrain {
 		}
 	}
 
+	/**Moves water from Water item at index positions ind to the water item at index positions lowestNeighbourIndices
+	 * @param ind 						indices of Water item to take from
+	 * @param lowestNeighbourIndices	indices of Water item to transfer to
+	 */
 	public void moveWater(int[] ind, int[] lowestNeighbourIndices){
 		surface[lowestNeighbourIndices[0]][lowestNeighbourIndices[1]].takeWater(surface[ind[0]][ind[1]]);
 	}

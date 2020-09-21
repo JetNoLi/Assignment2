@@ -1,9 +1,17 @@
+/** A Threaded class which will simulate water flowing over the Terrain object
+ * @author Jet Hendricks
+ */
 public class sim implements Runnable{
 
     int hi;
     int lo;
     Terrain land;
 
+    /**Stores the bounds of the permuted list to simulate for as well as the Terrain object to simulate
+     * @param lo    Lower bound
+     * @param hi    Upper bound
+     * @param land  Terrain object to simulate
+    */
     public sim(int lo, int hi, Terrain land){
         this.land = land;
         this.lo = lo;
@@ -11,6 +19,12 @@ public class sim implements Runnable{
         
     }
 
+
+    /** Returns an array with the row and column index of the lowest neighbour for the given 2D index 
+     * @param land  Terrain Object to simulate
+     * @param x     2D row index
+     * @param y     2D column index
+    */
     public  int[] getLowestNeighbour(Terrain land, int x, int y){
 
         Water current = land.surface[x][y]; //chosen water pixel
@@ -43,6 +57,8 @@ public class sim implements Runnable{
         return lowestNeighbour;  
     }
 
+
+    /**Method which is executed on sim.start() does the actual simulation of moving the water*/
     @Override
     public void run() {
     
@@ -55,7 +71,7 @@ public class sim implements Runnable{
             if (current.hasWater()){
                 int[] lowestNeighbourIndices = this.getLowestNeighbour(land, ind[0], ind[1]);
                                         
-                if (lowestNeighbourIndices == ind){
+                if (lowestNeighbourIndices == ind){ //in a basin currently
                     continue;
                 }
                             
